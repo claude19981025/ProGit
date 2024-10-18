@@ -1,0 +1,113 @@
+\documentclass[12pt,a4paper]{article}
+\title{ProGit}
+\author{Claude Lu}
+
+\usepackage{xcolor}     
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{enumitem} %允許自定義bullet
+\usepackage{amsmath, amssymb, amsfonts} %basic package for math expressions.
+\usepackage{listings}
+\usepackage{CJKutf8}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+%表格必用
+\usepackage{multirow}
+\usepackage{hhline, booktabs}
+%enable hyperlink
+\usepackage{hyperref}
+\usepackage{array}
+
+%enable lstlisting
+\usepackage{listings}
+
+\usepackage{framed}
+
+%自定義顏色
+\definecolor{rublue}{HTML}{0036A7}
+\definecolor{rured}{HTML}{D62718}
+\definecolor{vscodegreen}{HTML}{4EC9B0}
+\definecolor{vscodeblack}{HTML}{1E1E1E}
+%\definecolor{vscodeblack}{HTML}{4D4D4D}
+\definecolor{vscodeyellow}{HTML}{DCDCAA}
+\definecolor{vscodeblue}{HTML}{569CD6}
+%自定義命令
+\newcommand{\bluetexttt}[1]{\textcolor{blue}{\texttt{#1}}}
+\newcommand{\redtexttt}[1]{\textcolor{red}{\texttt{#1}}}
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+
+\newcommand{\rt}[1]{\textcolor{red}{#1}}
+\newcommand{\bt}[1]{\textcolor{blue}{#1}}
+\newcommand{\vsgt}[1]{\textcolor{vscodegreen}{#1}}
+\newcommand{\vsft}[1]{\textcolor{vscodeyellow}{#1}}
+\newcommand{\vsbt}[1]{\textcolor{vscodeblue}{#1}}
+
+\newcommand{\struct}[1]{\colorbox{vscodeblack}{\vsgt{#1}}}
+\newcommand{\function}[1]{\colorbox{vscodeblack}{\vsft{#1}}}
+\newcommand{\macro}[1]{\colorbox{vscodeblack}{\vsbt{#1}}}
+
+
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+
+\lstset{
+	basicstyle=\ttfamily, %use typewriter font
+	keywordstyle=\color{blue},%關鍵字顏色
+	commentstyle=\color{teal}, %註釋顏色 
+	stringstyle=\color{red}, % Strings in red
+	tabsize=4, % Set tab size to 4 spaces
+	showspaces=false, % Do not show spaces
+	showstringspaces=true, % Do not show string spaces
+	breaklines=true, %自動換行
+	frame=single %在代碼外加上外框
+}
+\begin{document}
+\maketitle
+
+\section{ssh}
+First gotta ensure if we already got key, you may (or may not) see the following files in \texttt{/home/\${USER}/.ssh}, where \textit{ed25519} and \textit{rsa} are algorithm name.
+\begin{enumerate}
+	\item id\_ed25519.pub (public key, for Github, better)
+	\item id\_rsa.pub (public key, for Github, older)
+	\item id\_ed25519 (private key, for you)
+	\item id\_rsa (private key, for you)
+\end{enumerate}
+
+\noindent If there's no keys, just add them
+\begin{footnotesize}
+\begin{verbatim}
+ssh-keygen -t ed25519
+ssh-keygen -t rsa
+\end{verbatim}
+\end{footnotesize}
+
+\noindent Add following in your \texttt{/home/\${USER}/.ssh/config}
+\begin{footnotesize}
+\begin{verbatim}
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+\end{verbatim}
+\end{footnotesize}
+
+\noindent Test connection
+\begin{footnotesize}
+\begin{verbatim}
+$ ssh -T git@github.com
+\end{verbatim}
+\end{footnotesize}
+
+\section{remote origin}
+\begin{footnotesize}
+\begin{verbatim}
+# show remote origin
+$ git remote -v
+
+# add url from github
+$ git remote set-url origin git@github.com:username/repository.git
+\end{verbatim}
+\end{footnotesize}
+
+
+\end{document}
